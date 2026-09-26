@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PocketSmart AI - Budget Lifestyle Planner</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen">
+  <div class="max-w-5xl mx-auto px-4 py-8">
+    <header class="text-center mb-8">
+      <h1 class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">
+        PocketSmart AI
+      </h1>
+      <p class="text-slate-400 mt-2">Smart multimodal budget planning for Home, Party, and Jewelry</p>
+    </header>
+
+    <!-- Tab Navigation -->
+    <div class="flex justify-center gap-4 mb-8">
+      <button onclick="switchTab('home')" id="tab-home" class="px-5 py-2.5 rounded-xl font-semibold bg-emerald-500 text-slate-950 transition">Home Interior</button>
+      <button onclick="switchTab('party')" id="tab-party" class="px-5 py-2.5 rounded-xl font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Party Planner</button>
+      <button onclick="switchTab('jewelry')" id="tab-jewelry" class="px-5 py-2.5 rounded-xl font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Jewelry Match</button>
+    </div>
+
+    <!-- Forms Section -->
+    <div class="bg-slate-800/60 border border-slate-700 rounded-2xl p-6 shadow-xl backdrop-blur-md mb-8">
+      
+      <!-- 1. Home Planner Form -->
+      <form id="form-home" onsubmit="handleHomeSubmit(event)" class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-slate-300 mb-1">Total Budget (INR)</label>
+            <input type="number" id="home-budget" value="15000" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-emerald-500">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-300 mb-1">Room Type</label>
+            <input type="text" id="home-room" value="Living Room" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-emerald-500">
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-300 mb-1">Key Items Needed (Comma-separated)</label>
+          <input type="text" id="home-items" value="Wall Shelves, Floor Lamp, Coffee Table" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-emerald-500">
+        </div>
+        <button type="submit" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-3 rounded-lg transition">Generate Home Plan</button>
+      </form>
+
+      <!-- 2. Party Planner Form -->
+      <form id="form-party" onsubmit="handlePartySubmit(event)" class="space-y-4 hidden">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-slate-300 mb-1">Total Budget (INR)</label>
+            <input type="number" id="party-budget" value="15000" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-emerald-500">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-300 mb-1">Event Type</label>
+            <input type="text" id="party-event" value="Farewell Party" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-emerald-500">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-300 mb-1">Guest Count</label>
+            <input type="number" id="party-guests" value="15" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-emerald-500">
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-300 mb-1">Venue Details</label>
+          <input type="text" id="party-venue" value="Home Terrace" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-emerald-500">
+        </div>
+        <button type="submit" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-3 rounded-lg transition">Generate Party Plan</button>
+      </form>
+
+      <!-- 3. Jewelry Planner Form -->
+      <form id="form-jewelry" onsubmit="handleJewelrySubmit(event)" class="space-y-4 hidden">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-slate-300 mb-1">Budget (INR)</label>
+            <input type="number" id="jewelry-budget" value="3000" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-emerald-500">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-300 mb-1">Occasion</label>
+            <input type="text" id="jewelry-occasion" value="Reception" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-emerald-500">
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-300 mb-1">Style Preference</label>
+          <input type="text" id="jewelry-style" value="Modern Indo-Western" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-emerald-500">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-300 mb-1">Upload Outfit Image (Optional)</label>
+          <input type="file" id="jewelry-image" accept="image/*" class="w-full text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-slate-700 file:text-emerald-400 hover:file:bg-slate-600">
+        </div>
+        <button type="submit" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-3 rounded-lg transition">Match Jewelry with AI</button>
+      </form>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loader" class="hidden text-center py-10">
+      <div class="inline-block animate-spin rounded-full h-10 w-10 border-4 border-emerald-500 border-t-transparent"></div>
+      <p class="text-slate-400 mt-3 font-medium">Gemini AI is crafting your budget plan...</p>
+    </div>
+
+    <!-- Output Display Card -->
+    <div id="results" class="hidden bg-slate-800/80 border border-slate-700 rounded-2xl p-6 shadow-2xl">
+      <h2 id="result-title" class="text-2xl font-bold text-white mb-4">Recommendations</h2>
+      <div id="result-content" class="space-y-4"></div>
+    </div>
+  </div>
+
+  <script>
+    function switchTab(tab) {
+      ['home', 'party', 'jewelry'].forEach(t => {
+        document.getElementById(`form-${t}`).classList.add('hidden');
+        document.getElementById(`tab-${t}`).className = 'px-5 py-2.5 rounded-xl font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition';
+      });
+      document.getElementById(`form-${tab}`).classList.remove('hidden');
+      document.getElementById(`tab-${tab}`).className = 'px-5 py-2.5 rounded-xl font-semibold bg-emerald-500 text-slate-950 transition';
+      document.getElementById('results').classList.add('hidden');
+    }
+
+    function showLoader(show) {
+      document.getElementById('loader').classList.toggle('hidden', !show);
+      if (show) document.getElementById('results').classList.add('hidden');
+    }
+
+    async function handleHomeSubmit(e) {
+      e.preventDefault();
+      showLoader(true);
+      const itemsList = document.getElementById('home-items').value.split(',').map(s => s.trim()).filter(Boolean);
+      const itemsObj = {};
+      itemsList.forEach(item => itemsObj[item] = 1);
+
+      const res = await fetch('/api/home', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          budget: document.getElementById('home-budget').value,
+          room_type: document.getElementById('home-room').value,
+          items: itemsObj
+        })
+      });
+      const data = await res.json();
+      showLoader(false);
+      renderHomeResults(data);
+    }
+
+    async function handlePartySubmit(e) {
+      e.preventDefault();
+      showLoader(true);
+      const res = await fetch('/api/party', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          budget: document.getElementById('party-budget').value,
+          event_type: document.getElementById('party-event').value,
+          guest_count: document.getElementById('party-guests').value,
+          venue_details: document.getElementById('party-venue').value
+        })
+      });
+      const data = await res.json();
+      showLoader(false);
+      renderPartyResults(data);
+    }
+
+    async function handleJewelrySubmit(e) {
+      e.preventDefault();
+      showLoader(true);
+      const formData = new FormData();
+      formData.append('budget', document.getElementById('jewelry-budget').value);
+      formData.append('occasion', document.getElementById('jewelry-occasion').value);
+      formData.append('style_pref', document.getElementById('jewelry-style').value);
+      const fileInput = document.getElementById('jewelry-image');
+      if (fileInput.files.length > 0) {
+        formData.append('image', fileInput.files[0]);
+      }
+
+      const res = await fetch('/api/jewelry', {
+        method: 'POST',
+        body: formData
+      });
+      const data = await res.json();
+      showLoader(false);
+      renderJewelryResults(data);
+    }
+
+    function renderHomeResults(data) {
+      const container = document.getElementById('result-content');
+      document.getElementById('result-title').innerText = `Home Interior Plan (Allocated: ₹${data.allocated_budget || 0} / ₹${data.total_budget})`;
+      
+      let html = `<div class="p-4 bg-emerald-950/40 border border-emerald-500/30 rounded-xl text-emerald-300 text-sm mb-4">${data.budget_summary || ''}</div>`;
+      html += `<div class="grid grid-cols-1 md:grid-cols-2 gap-4">`;
+      (data.recommendations || []).forEach(item => {
+        html += `
+          <div class="bg-slate-900 border border-slate-700/80 rounded-xl p-4">
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="font-bold text-white text-lg">${item.item_name}</h3>
+              <span class="text-xs font-semibold px-2 py-1 rounded bg-slate-800 text-emerald-400 border border-slate-700">${item.platform}</span>
+            </div>
+            <p class="text-sm text-slate-400 mb-3">${item.why_recommended}</p>
+            <div class="text-emerald-400 font-extrabold text-lg">₹${item.estimated_price}</div>
+          </div>`;
+      });
+      html += `</div>`;
+      container.innerHTML = html;
+      document.getElementById('results').classList.remove('hidden');
+    }
+
+    function renderPartyResults(data) {
+      const container = document.getElementById('result-content');
+      document.getElementById('result-title').innerText = `${data.event_type} (${data.guest_count} Guests) - Budget: ₹${data.total_budget}`;
+
+      let html = `<div class="p-4 bg-cyan-950/40 border border-cyan-500/30 rounded-xl text-cyan-300 text-sm mb-4">💡 <strong>Savings Tip:</strong> ${data.savings_tip || ''}</div>`;
+      html += `<div class="grid grid-cols-1 md:grid-cols-3 gap-4">`;
+      (data.breakdown || []).forEach(b => {
+        html += `
+          <div class="bg-slate-900 border border-slate-700/80 rounded-xl p-4 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                <h3 class="font-bold text-white text-base">${b.category}</h3>
+                <span class="text-xs bg-slate-800 text-cyan-400 px-2 py-0.5 rounded border border-slate-700">${b.recommended_vendor_platform}</span>
+              </div>
+              <ul class="text-xs text-slate-400 list-disc list-inside space-y-1 mb-4">
+                ${(b.suggestions || []).map(s => `<li>${s}</li>`).join('')}
+              </ul>
+            </div>
+            <div class="text-cyan-400 font-extrabold text-lg">₹${b.estimated_cost}</div>
+          </div>`;
+      });
+      html += `</div>`;
+      container.innerHTML = html;
+      document.getElementById('results').classList.remove('hidden');
+    }
+
+    function renderJewelryResults(data) {
+      const container = document.getElementById('result-content');
+      document.getElementById('result-title').innerText = `${data.occasion} Jewelry Plan - Budget: ₹${data.total_budget}`;
+
+      let html = `<div class="p-4 bg-purple-950/40 border border-purple-500/30 rounded-xl text-purple-200 text-sm mb-4">✨ <strong>Style Analysis:</strong> ${data.style_match_analysis || ''}</div>`;
+      html += `<div class="grid grid-cols-1 md:grid-cols-3 gap-4">`;
+      (data.items || []).forEach(item => {
+        html += `
+          <div class="bg-slate-900 border border-slate-700/80 rounded-xl p-4 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-start mb-2">
+                <h3 class="font-bold text-white text-base">${item.jewelry_name}</h3>
+                <span class="text-xs bg-slate-800 text-purple-300 px-2 py-0.5 rounded border border-slate-700">${item.platform}</span>
+              </div>
+              <p class="text-xs text-slate-400 mb-3">${item.styling_tip}</p>
+            </div>
+            <div class="text-purple-400 font-extrabold text-lg">₹${item.estimated_price}</div>
+          </div>`;
+      });
+      html += `</div>`;
+      container.innerHTML = html;
+      document.getElementById('results').classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>
